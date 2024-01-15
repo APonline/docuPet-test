@@ -25,6 +25,7 @@ class PetController extends AbstractController
            $data[] = [
                'id' => $product->getId(),
                'name' => $product->getName(),
+               'type' => $product->getType(),
                'breed' => $product->getBreed(),
                'gender' => $product->getGender(),
            ];
@@ -41,6 +42,7 @@ class PetController extends AbstractController
    
         $pet = new Pet();
         $pet->setName($request->request->get('name'));
+        $pet->setType($request->request->get('type'));
         $pet->setBreed($request->request->get('breed'));
         $pet->setGender($request->request->get('gender'));
    
@@ -50,6 +52,7 @@ class PetController extends AbstractController
         $data =  [
             'id' => $pet->getId(),
             'name' => $pet->getName(),
+            'type' => $pet->getType(),
             'breed' => $pet->getBreed(),
             'gender' => $pet->getGender(),
         ];
@@ -71,6 +74,7 @@ class PetController extends AbstractController
         $data =  [
             'id' => $pet->getId(),
             'name' => $pet->getName(),
+            'type' => $pet->getType(),
             'breed' => $pet->getBreed(),
             'gender' => $pet->getGender(),
         ];
@@ -89,6 +93,7 @@ class PetController extends AbstractController
         }
    
         $pet->setName($request->request->get('name'));
+        $pet->setType($request->request->get('type'));
         $pet->setBreed($request->request->get('breed'));
         $pet->setGender($request->request->get('gender'));
         $entityManager->flush();
@@ -96,6 +101,7 @@ class PetController extends AbstractController
         $data =  [
             'id' => $pet->getId(),
             'name' => $pet->getName(),
+            'type' => $pet->getType(),
             'description' => $pet->getDescription(),
             'gender' => $pet->getGender(),
         ];

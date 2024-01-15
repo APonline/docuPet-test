@@ -17,6 +17,9 @@ class Pet
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $type = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $breed = null;
 
     #[ORM\Column(length: 255)]
@@ -35,6 +38,18 @@ class Pet
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
