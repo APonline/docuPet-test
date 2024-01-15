@@ -31,7 +31,7 @@ class PetController extends AbstractController
            ];
         }
    
-        return $this->json($data);
+        return $this->json($data, 200);
     }
  
  
@@ -57,7 +57,7 @@ class PetController extends AbstractController
             'gender' => $pet->getGender(),
         ];
            
-        return $this->json($data);
+        return $this->json($data, 201);
     }
  
  
@@ -79,7 +79,7 @@ class PetController extends AbstractController
             'gender' => $pet->getGender(),
         ];
            
-        return $this->json($data);
+        return $this->json($data, 200);
     }
  
     #[Route('/pets/{id}', name: 'pet_update', methods:['put', 'patch'] )]
@@ -106,7 +106,7 @@ class PetController extends AbstractController
             'gender' => $pet->getGender(),
         ];
            
-        return $this->json($data);
+        return $this->json($data, 200);
     }
  
     #[Route('/pets/{id}', name: 'pet_delete', methods:['delete'] )]
@@ -122,6 +122,6 @@ class PetController extends AbstractController
         $entityManager->remove($pet);
         $entityManager->flush();
    
-        return $this->json('Deleted a pet successfully with id ' . $id);
+        return $this->json('Deleted a pet successfully with id ' . $id, 200);
     }
 }
