@@ -2,7 +2,7 @@
 
 # Front End
 
-## npm run start
+## npm run serve
 
 # Server Migrations
 
