@@ -2,13 +2,22 @@
 
 namespace Doctrine\Bundle\DoctrineBundle\Mapping;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
+use Doctrine\Persistence\ManagerRegistry;
 use ReflectionClass;
 use RuntimeException;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+
+use function array_pop;
+use function class_exists;
+use function dirname;
+use function explode;
+use function implode;
+use function sprintf;
+use function str_replace;
+use function strpos;
 
 /**
  * This class provides methods to access Doctrine entity class metadata for a
@@ -16,12 +25,8 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
  */
 class DisconnectedMetadataFactory
 {
-    /** @var ManagerRegistry */
-    private $registry;
+    private ManagerRegistry $registry;
 
-    /**
-     * @param ManagerRegistry $registry A ManagerRegistry instance
-     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
@@ -126,15 +131,9 @@ class DisconnectedMetadataFactory
     /**
      * Get a base path for a class
      *
-     * @param string $name      class name
-     * @param string $namespace class namespace
-     * @param string $path      class path
-     *
-     * @return string
-     *
      * @throws RuntimeException When base path not found.
      */
-    private function getBasePathForClass($name, $namespace, $path)
+    private function getBasePathForClass(string $name, string $namespace, string $path): string
     {
         $namespace   = str_replace('\\', '/', $namespace);
         $search      = str_replace('\\', '/', $path);
@@ -147,12 +146,7 @@ class DisconnectedMetadataFactory
         return $destination;
     }
 
-    /**
-     * @param string $namespace
-     *
-     * @return ClassMetadataCollection
-     */
-    private function getMetadataForNamespace($namespace)
+    private function getMetadataForNamespace(string $namespace): ClassMetadataCollection
     {
         $metadata = [];
         foreach ($this->getAllMetadata() as $m) {
@@ -166,12 +160,7 @@ class DisconnectedMetadataFactory
         return new ClassMetadataCollection($metadata);
     }
 
-    /**
-     * @param string $entity
-     *
-     * @return ClassMetadataCollection
-     */
-    private function getMetadataForClass($entity)
+    private function getMetadataForClass(string $entity): ClassMetadataCollection
     {
         foreach ($this->registry->getManagers() as $em) {
             $cmf = new DisconnectedClassMetadataFactory();
@@ -185,10 +174,8 @@ class DisconnectedMetadataFactory
         return new ClassMetadataCollection([]);
     }
 
-    /**
-     * @return ClassMetadata[]
-     */
-    private function getAllMetadata()
+    /** @return ClassMetadata[] */
+    private function getAllMetadata(): array
     {
         $metadata = [];
         foreach ($this->registry->getManagers() as $em) {

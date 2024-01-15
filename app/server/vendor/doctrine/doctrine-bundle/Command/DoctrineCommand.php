@@ -2,14 +2,12 @@
 
 namespace Doctrine\Bundle\DoctrineBundle\Command;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Sharding\PoolingShardConnection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\EntityGenerator;
-use LogicException;
+use Doctrine\Persistence\ManagerRegistry;
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Base class for Doctrine console commands to extend from.
@@ -18,46 +16,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class DoctrineCommand extends Command
 {
-    /** @var ManagerRegistry|null */
-    private $doctrine;
+    private ManagerRegistry $doctrine;
 
-    /** @var ContainerInterface|null */
-    private $container;
-
-    public function __construct(ManagerRegistry $doctrine = null)
+    public function __construct(ManagerRegistry $doctrine)
     {
         parent::__construct();
 
         $this->doctrine = $doctrine;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * @deprecated
-     *
-     * @return ContainerInterface
-     *
-     * @throws LogicException
-     */
-    protected function getContainer()
-    {
-        if ($this->container === null) {
-            $application = $this->getApplication();
-            if ($application === null) {
-                throw new LogicException('The container cannot be retrieved as the application instance is not yet set.');
-            }
-
-            $this->container = $application->getKernel()->getContainer();
-        }
-
-        return $this->container;
     }
 
     /**
@@ -90,12 +55,8 @@ abstract class DoctrineCommand extends Command
     {
         $manager = $this->getDoctrine()->getManager($name);
 
-        if ($shardId) {
-            if (! $manager->getConnection() instanceof PoolingShardConnection) {
-                throw new LogicException(sprintf("Connection of EntityManager '%s' must implement shards configuration.", $name));
-            }
-
-            $manager->getConnection()->connect($shardId);
+        if ($shardId !== null) {
+            throw new InvalidArgumentException('Shards are not supported anymore using doctrine/dbal >= 3');
         }
 
         return $manager;
@@ -113,11 +74,9 @@ abstract class DoctrineCommand extends Command
         return $this->getDoctrine()->getConnection($name);
     }
 
-    /**
-     * @return ManagerRegistry
-     */
+    /** @return ManagerRegistry */
     protected function getDoctrine()
     {
-        return $this->doctrine ?: $this->doctrine = $this->getContainer()->get('doctrine');
+        return $this->doctrine;
     }
 }
