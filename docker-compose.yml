@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: server
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_HOST: localhost
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+
+  docupet-frontend:
+    build:
+      context: ./docupet
+    ports:
+      - "8080:8080"
+    depends_on:
+      - server-backend
+
+  server-backend:
+    build:
+      context: ./server
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: dev
+      APP_SECRET: b7de14c0b1b5e69088f33c2f9db30cf7
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/server?serverVersion=8.0.32&charset=utf8mb4"
+    depends_on:
+      - mysql
