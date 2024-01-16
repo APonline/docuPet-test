@@ -18,8 +18,8 @@
           stacked
           class="custom-control custom-radio"
         >
-          <b-form-radio value="Dog" size="lg">Dog</b-form-radio>
-          <b-form-radio value="Cat" size="lg">Cat</b-form-radio>
+          <b-form-radio value="Dog" size="lg"><p class="r-btn">Dog</p></b-form-radio>
+          <b-form-radio value="Cat" size="lg"><p class="r-btn">Cat</p></b-form-radio>
         </b-form-radio-group>
       </b-form-group>
 
@@ -77,8 +77,8 @@
             :aria-describedby="ariaDescribedby"
             @change="updateBreedOption($event, 'option')"
           >
-            <b-form-radio value="Unknown">I don't know</b-form-radio>
-            <b-form-radio value="Mix">It's a mix</b-form-radio>
+            <b-form-radio value="Unknown"><p class="r-btn">I don't know</p></b-form-radio>
+            <b-form-radio value="Mix"><p class="r-btn">It's a mix</p></b-form-radio>
           </b-form-radio-group>
 
           <b-form-group 
@@ -326,9 +326,23 @@ select {
   margin: 20px 0;
 }
 
+.r-btn {
+  margin-left: 15px!important;
+  margin-bottom:8px;
+}
+
+#petType {
+  margin-left: 15px!important;
+}
+
 #input-group-3 {
   position:relative;
 }
+
+#input-group-3b {
+  margin-left: 15px;
+}
+
 .bi-search {
   position: absolute;
   top: 35px;
@@ -352,5 +366,13 @@ select {
   margin-left:-1px!important;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .container {
+    width:100vw;
+    max-width:calc(100% - 20px);
+  }
 }
 </style>

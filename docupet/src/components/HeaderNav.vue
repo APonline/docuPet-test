@@ -39,4 +39,10 @@ export default {
   right:40px;
   margin:0px;
 }
+
+@media only screen and (max-width: 768px) {
+  .inner-container {
+    justify-content: flex-start;
+  }
+}
 </style>

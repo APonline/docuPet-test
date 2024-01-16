@@ -4,7 +4,7 @@
 
 #### sudo docker-compose up --build
 
-\***\* IF DOCKER IMAGE WON'T BUILD OR GIVES TROULBES \*\***
+** IF DOCKER IMAGE WON'T BUILD OR GIVES TROULBES - TRY STEPS BELOW **
 
 # Front End
 
@@ -15,12 +15,6 @@
 # Server Side
 
 #### cd server
-
-# Server Migrations
-
-#### php bin/console make:migration
-
-#### php bin/console doctrine:migrations:migrate
 
 # Run server
 
